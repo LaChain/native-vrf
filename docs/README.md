@@ -12,6 +12,7 @@ To interact with the Native VRF, you need to use the contract address deployed o
 - **LaTestnet VRF Contract Address**: `0x694dBD550cE26023ED931993303044fFB4B57879`
 
 Verify the contract addresses and transactions on the blockchain explorer:
+
 - [**LaChain Explorer URL**](https://explorer.lachain.network/address/0xE2B50Cef64d66b503Ac269980f39550590F5b23C)
 - [**LaTestnet Explorer URL**](https://testexplorer.lachain.network/address/0x694dBD550cE26023ED931993303044fFB4B57879)
 
@@ -26,6 +27,7 @@ Example:
 pragma solidity 0.8.4;
 
 import "../interfaces/INativeVRF.sol";
+
 ```
 
 The INativeVRF interface contains the functions you need to request and fetch random numbers.
@@ -38,25 +40,25 @@ Here's an example of a contract requesting a random number:
 
 ```solidity
 contract NativeVRFConsumer {
+  uint256[] public randomResults;
+  uint256[] public requestIds;
+  INativeVRF public nativeVRF;
 
-    uint256[] public randomResults;
-    uint256[] public requestIds;
-    INativeVRF public nativeVRF;
+  event RandomGenerated(uint256 indexed index, uint256 indexed requestId);
 
-    event RandomGenerated(uint256 indexed index, uint256 indexed requestId);
+  constructor(address nativeVRF_) {
+    nativeVRF = INativeVRF(nativeVRF_);
+  }
 
-    constructor(address nativeVRF_) {
-        nativeVRF = INativeVRF(nativeVRF_);
-    }
+  // Function to request a random number
+  function generateRandom() external payable {
+    uint256[] memory ids = nativeVRF.requestRandom{ value: msg.value }(1);
+    requestIds.push(ids[0]);
 
-    // Function to request a random number
-    function generateRandom() external payable {
-        uint256[] memory ids = nativeVRF.requestRandom{value: msg.value}(1);
-        requestIds.push(ids[0]);
-
-        emit RandomGenerated(requestIds.length, ids[0]);
-    }
+    emit RandomGenerated(requestIds.length, ids[0]);
+  }
 }
+
 ```
 
 ### Notes:
@@ -64,7 +66,6 @@ contract NativeVRFConsumer {
 - generateRandom(): Requests a random number from the Native VRF by sending Ether along with the request.
 - requestIds: Keeps track of the request IDs returned by the VRF.
 - RandomGenerated: Emitted when a request is successfully made, logging the request ID.
-
 
 ## 3. Recording Random Results
 
@@ -74,20 +75,21 @@ Here's an example of how to record the random number:
 
 ```solidity
 function recordRandomResults() external {
-    uint256 requestLen = requestIds.length;
-    uint256 resultLen = randomResults.length;
+  uint256 requestLen = requestIds.length;
+  uint256 resultLen = randomResults.length;
 
-    uint256 numResults = requestLen - resultLen;
-    uint256[] memory results = new uint256[](numResults);
+  uint256 numResults = requestLen - resultLen;
+  uint256[] memory results = new uint256[](numResults);
 
-    for (uint256 i = 0; i < numResults; i++) {
-        uint256 index = i + resultLen;
-        uint256 reqId = requestIds[index];
-        uint256 result = nativeVRF.randomResults(reqId);
-        results[i] = result;
-        emit RandomRecorded(index, result);
-    }
+  for (uint256 i = 0; i < numResults; i++) {
+    uint256 index = i + resultLen;
+    uint256 reqId = requestIds[index];
+    uint256 result = nativeVRF.randomResults(reqId);
+    results[i] = result;
+    emit RandomRecorded(index, result);
+  }
 }
+
 ```
 
 ### Notes:
@@ -106,43 +108,43 @@ pragma solidity 0.8.4;
 import "../interfaces/INativeVRF.sol";
 
 contract NativeVRFConsumer {
+  uint256[] public randomResults;
+  uint256[] public requestIds;
+  INativeVRF public nativeVRF;
 
-    uint256[] public randomResults;
-    uint256[] public requestIds;
-    INativeVRF public nativeVRF;
+  event RandomGenerated(uint256 indexed index, uint256 indexed requestId);
+  event RandomRecorded(uint256 indexed index, uint256 indexed result);
 
-    event RandomGenerated(uint256 indexed index, uint256 indexed requestId);
-    event RandomRecorded(uint256 indexed index, uint256 indexed result);
+  constructor(address nativeVRF_) {
+    nativeVRF = INativeVRF(nativeVRF_);
+  }
 
-    constructor(address nativeVRF_) {
-        nativeVRF = INativeVRF(nativeVRF_);
+  // Function to request a random number
+  function generateRandom() external payable {
+    uint256[] memory ids = nativeVRF.requestRandom{ value: msg.value }(1);
+    requestIds.push(ids[0]);
+
+    emit RandomGenerated(requestIds.length, ids[0]);
+  }
+
+  // Function to record random numbers
+  function recordRandomResults() external {
+    uint256 requestLen = requestIds.length;
+    uint256 resultLen = randomResults.length;
+
+    uint256 numResults = requestLen - resultLen;
+    uint256[] memory results = new uint256[](numResults);
+
+    for (uint256 i = 0; i < numResults; i++) {
+      uint256 index = i + resultLen;
+      uint256 reqId = requestIds[index];
+      uint256 result = nativeVRF.randomResults(reqId);
+      results[i] = result;
+      emit RandomRecorded(index, result);
     }
-
-    // Function to request a random number
-    function generateRandom() external payable {
-        uint256[] memory ids = nativeVRF.requestRandom{value: msg.value}(1);
-        requestIds.push(ids[0]);
-
-        emit RandomGenerated(requestIds.length, ids[0]);
-    }
-
-    // Function to record random numbers
-    function recordRandomResults() external {
-        uint256 requestLen = requestIds.length;
-        uint256 resultLen = randomResults.length;
-
-        uint256 numResults = requestLen - resultLen;
-        uint256[] memory results = new uint256[](numResults);
-
-        for (uint256 i = 0; i < numResults; i++) {
-            uint256 index = i + resultLen;
-            uint256 reqId = requestIds[index];
-            uint256 result = nativeVRF.randomResults(reqId);
-            results[i] = result;
-            emit RandomRecorded(index, result);
-        }
-    }
+  }
 }
+
 ```
 
 ### Notes:
