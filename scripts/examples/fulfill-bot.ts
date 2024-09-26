@@ -74,7 +74,7 @@ async function main() {
     signer
   );
 
-  const delayMs = 1000;
+  const delayMs = 10000;
 
   runInterval(async () => {
     try {
