@@ -90,13 +90,13 @@ contract NativeVRF {
     }
 
     /**
-     * @dev Fulfill random numbers by calculating signatures off-chain
+     * @dev Fullfill random numbers by calculating signatures off-chain
      * Requirements:
      * - The length of all data must be equal
      * - The provided input must comply with the corresponding signature value
      * - The signature values must be lower than the `threshold` value
      */
-    function fulfillRandomness(
+    function fullfillRandomness(
         uint256[] memory _requestIds,
         uint256[] memory _randInputs,
         bytes[] memory _signatures
@@ -107,7 +107,7 @@ contract NativeVRF {
         uint256 totalReward = 0;
 
         for (uint256 i = 0; i < _requestIds.length; i++) {
-            fulfillRandomnessInternal(
+            fullfillRandomnessInternal(
                 _requestIds[i],
                 _randInputs[i],
                 _signatures[i]
@@ -139,7 +139,7 @@ contract NativeVRF {
      * - Verify signature from the message hash and the sender address
      * - Convert the signature into a number value and compare to the `threshold` value
      */
-    function fulfillRandomnessInternal(
+    function fullfillRandomnessInternal(
         uint256 requestId,
         uint256 randInput,
         bytes memory signature
