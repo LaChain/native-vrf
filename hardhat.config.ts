@@ -34,7 +34,7 @@ const {
 
 const config: HardhatUserConfig = {
   solidity: "0.8.4",
-  defaultNetwork: "latestnet",
+  defaultNetwork: "hardhat",
   networks: {
     lachain: {
       url: LACHAIN_RPC_URL,

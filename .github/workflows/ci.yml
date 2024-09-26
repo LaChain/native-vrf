@@ -64,7 +64,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: "20"
       # Step 3: Install NPM dependencies
       - name: Install NPM dependencies
         run: npm install
@@ -72,7 +72,7 @@ jobs:
       - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: "3.11"
       # Step 5: Install Slither and solc-select
       - name: Install Slither and solc-select
         run: |
