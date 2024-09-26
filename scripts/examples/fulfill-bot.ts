@@ -105,7 +105,7 @@ async function main() {
         requestId.toString()
       );
 
-      const tx = await nativeVRF.fullfillRandomness(
+      const tx = await nativeVRF.fulfillRandomness(
         [requestId],
         [input],
         [signature]
