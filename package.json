@@ -1,5 +1,6 @@
 {
   "name": "hardhat-project",
+  "version": "1.0.0",
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.6",
     "@nomiclabs/hardhat-etherscan": "^3.0.3",
@@ -43,5 +44,8 @@
     "format:fix": "prettier --write .",
     "compile": "hardhat compile",
     "test": "hardhat test"
+  },
+  "engines": {
+    "node": ">=12.20.0"
   }
 }
