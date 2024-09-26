@@ -29,4 +29,4 @@ COPY --from=base /app/utils /app/utils
 COPY --from=base /app/addressList /app/addressList
 COPY --from=base /app/node_modules /app/node_modules
 
-CMD ["npx", "hardhat", "run", "scripts/examples/fulfill-bot.ts"]
+CMD ["npx", "ts-node", "index.ts"]
