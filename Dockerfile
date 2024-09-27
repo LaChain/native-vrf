@@ -1,4 +1,4 @@
-FROM node:20 as base
+FROM node:20 AS base
 
 # Set the working directory in the container to /app
 WORKDIR /app
@@ -15,18 +15,17 @@ COPY . /app
 
 # Hardhat compile
 RUN npm run compile
+RUN npx tsc /app/index.ts --resolveJsonModule
 
-FROM node:20 as production
+FROM node:20 AS production
 
 WORKDIR /app
 
+COPY --from=base /app/index.js /app/index.js
 COPY --from=base /app/package.json /app/package.json
 COPY --from=base /app/package-lock.json /app/package-lock.json
-COPY --from=base /app/hardhat.config.ts /app/hardhat.config.ts
-COPY --from=base /app/typechain /app/typechain
-COPY --from=base /app/scripts/examples/fulfill-bot.ts /app/scripts/examples/fulfill-bot.ts
-COPY --from=base /app/utils /app/utils
-COPY --from=base /app/addressList /app/addressList
-COPY --from=base /app/node_modules /app/node_modules
+COPY --from=base /app/artifacts/contracts/NativeVRF.sol/NativeVRF.json /app/artifacts/contracts/NativeVRF.sol/NativeVRF.json
 
-CMD ["npx", "ts-node", "index.ts"]
+RUN npm install --only=production
+
+CMD ["node", "index.js"]
