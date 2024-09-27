@@ -4,3 +4,6 @@ cache
 coverage*
 gasReporterOutput.json
 index.js
+contracts
+docs
+README.md

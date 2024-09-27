@@ -37,13 +37,13 @@ const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   networks: {
     lachain: {
-      url: LACHAIN_RPC_URL,
+      url: LACHAIN_RPC_URL || "",
       accounts: accountUtils.getAccounts(),
       chainId: 274,
       gasPrice: 1000000007,
     },
     latestnet: {
-      url: LATESTNET_RPC_URL,
+      url: LATESTNET_RPC_URL || "",
       accounts: accountUtils.getAccounts(),
       chainId: 418,
       gasPrice: 1000000007,
@@ -62,16 +62,16 @@ const config: HardhatUserConfig = {
       {
         network: "lachain",
         urls: {
-          apiURL: LACHAIN_EXPLORER_API_URL!,
-          browserURL: LACHAIN_EXPLORER_URL!,
+          apiURL: LACHAIN_EXPLORER_API_URL || "",
+          browserURL: LACHAIN_EXPLORER_URL || "",
         },
         chainId: 274,
       },
       {
         network: "latestnet",
         urls: {
-          apiURL: LATESTNET_EXPLORER_API_URL!,
-          browserURL: LATESTNET_EXPLORER_URL!,
+          apiURL: LATESTNET_EXPLORER_API_URL || "",
+          browserURL: LATESTNET_EXPLORER_URL || "",
         },
         chainId: 418,
       },

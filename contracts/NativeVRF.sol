@@ -140,33 +140,33 @@ contract NativeVRF {
      * - Convert the signature into a number value and compare to the `threshold` value
      */
     function fulfillRandomnessInternal(
-        uint256 requestId,
-        uint256 randInput,
-        bytes memory signature
+        uint256 _requestId,
+        uint256 _randInput,
+        bytes memory _signature
     ) private {
         require(
-            requestInitializers[requestId] != address(0),
+            requestInitializers[_requestId] != address(0),
             "Random not initialized"
         );
-        require(randomResults[requestId] == 0, "Already fulfilled");
-        require(randomResults[requestId - 1] != 0, "No prior result");
+        require(randomResults[_requestId] == 0, "Already fulfilled");
+        require(randomResults[_requestId - 1] != 0, "No prior result");
 
-        bytes32 messageHash = getMessageHash(requestId, randInput);
+        bytes32 messageHash = getMessageHash(_requestId, _randInput);
         require(
-            Signature.verify(msg.sender, messageHash, signature),
+            Signature.verify(msg.sender, messageHash, _signature),
             "Invalid signature"
         );
 
-        uint256 sigValue = Converter.toUint256(signature);
+        uint256 sigValue = Converter.toUint256(_signature);
         require(sigValue % difficulty == 0, "Invalid random input");
 
-        uint256 prevRand = randomResults[requestId - 1];
+        uint256 prevRand = randomResults[_requestId - 1];
         uint256 random = uint256(
             keccak256(
                 abi.encode(
-                    randInput,
+                    _randInput,
                     prevRand,
-                    requestInitializers[requestId],
+                    requestInitializers[_requestId],
                     tx.gasprice,
                     block.number,
                     block.difficulty,
@@ -176,8 +176,8 @@ contract NativeVRF {
             )
         );
 
-        randomResults[requestId] = random;
-        emit RandomFulfilled(requestId, random);
+        randomResults[_requestId] = random;
+        emit RandomFulfilled(_requestId, random);
     }
 
     /**
@@ -200,26 +200,26 @@ contract NativeVRF {
     /**
      * @dev Compute the message hash from the provided input
      */
-    function getMessageHash(uint256 requestId, uint256 randInput)
+    function getMessageHash(uint256 _requestId, uint256 _randInput)
         public
         view
         returns (bytes32)
     {
-        uint256 prevRand = requestId > 0 ? randomResults[requestId - 1] : 0;
-        return keccak256(abi.encodePacked(prevRand, randInput));
+        uint256 prevRand = _requestId > 0 ? randomResults[_requestId - 1] : 0;
+        return keccak256(abi.encodePacked(prevRand, _randInput));
     }
 
     /**
      * @dev Convert signatures to number values
      */
-    function convertSignatures(bytes[] memory signatures)
+    function convertSignatures(bytes[] memory _signatures)
         external
         pure
         returns (uint256[] memory)
     {
-        uint256[] memory results = new uint256[](signatures.length);
-        for (uint256 i = 0; i < signatures.length; i++) {
-            results[i] = uint256(Converter.toUint256(signatures[i]));
+        uint256[] memory results = new uint256[](_signatures.length);
+        for (uint256 i = 0; i < _signatures.length; i++) {
+            results[i] = uint256(Converter.toUint256(_signatures[i]));
         }
         return results;
     }
