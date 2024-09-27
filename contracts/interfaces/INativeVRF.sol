@@ -40,7 +40,7 @@ interface INativeVRF {
         payable
         returns (uint256[] memory);
 
-    function fullfillRandomness(
+    function fulfillRandomness(
         uint256[] memory _requestIds,
         uint256[] memory _randInputs,
         bytes[] memory _signatures
