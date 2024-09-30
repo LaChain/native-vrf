@@ -8,13 +8,13 @@ The **Native Verifiable Random Function (VRF)** provides a decentralized way to 
 
 To interact with the Native VRF, you need to use the contract address deployed on your blockchain network. You will use these addresses in your contract to request random numbers.
 
-- **LaChain VRF Contract Address**: `0xE2B50Cef64d66b503Ac269980f39550590F5b23C`
-- **LaTestnet VRF Contract Address**: `0x694dBD550cE26023ED931993303044fFB4B57879`
+- **LaChain VRF Contract Address**: `0xb74304897d1846e7Aa9abbb01e64527e225E0622`
+- **LaTestnet VRF Contract Address**: `0xB145Fccb84F30cd1E271D019A78e6A1eeB630AF0`
 
 Verify the contract addresses and transactions on the blockchain explorer:
 
-- [**LaChain Explorer URL**](https://explorer.lachain.network/address/0xE2B50Cef64d66b503Ac269980f39550590F5b23C)
-- [**LaTestnet Explorer URL**](https://testexplorer.lachain.network/address/0x694dBD550cE26023ED931993303044fFB4B57879)
+- [**LaChain Explorer URL**](https://explorer.lachain.network/address/0xb74304897d1846e7Aa9abbb01e64527e225E0622)
+- [**LaTestnet Explorer URL**](https://testexplorer.lachain.network/address/0xB145Fccb84F30cd1E271D019A78e6A1eeB630AF0)
 
 ## 1. Importing Native VRF into Your Contract
 
@@ -163,5 +163,4 @@ After requesting and recording a random number, you can track the transactions o
 
 For more details, visit the following resources:
 
-GitHub Repository for Native VRF: [Native-VRF](https://github.com/Native-VRF/native-vrf)
-GitHub Repository for Ripio's Native VRF: [verifiable-random-function](https://github.com/ripio/verifiable-random-function)
+Native VRF GitHub Repository: [Native-VRF](https://github.com/LaChain/native-vrf)
