@@ -4,7 +4,6 @@ pragma solidity 0.8.4;
 import "../interfaces/INativeVRF.sol";
 
 contract NativeVRFConsumer {
-
     uint256[] public randomResults;
     uint256[] public requestIds;
     INativeVRF public nativeVRF;
@@ -38,7 +37,5 @@ contract NativeVRFConsumer {
 
             emit RandomRecorded(index, result);
         }
-
     }
-
 }

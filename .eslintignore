@@ -2,3 +2,7 @@ node_modules
 artifacts
 cache
 coverage
+index.js
+contracts
+docs
+README.md

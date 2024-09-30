@@ -4,30 +4,33 @@ import { NativeVRFConsumer__factory } from "../../typechain";
 import addressUtils from "../../utils/addressUtils";
 
 const decordOutputs = (receipt: ContractReceipt) => {
-    const events = receipt.events;
-    if (!events) return [];
-    return events.filter(e => e.event).map(e => [e.event, e.args]);
-}
+  const events = receipt.events;
+  if (!events) return [];
+  return events.filter((e) => e.event).map((e) => [e.event, e.args]);
+};
 
 async function main() {
-    const [signer] = await ethers.getSigners();
-    const addressList = await addressUtils.getAddressList(hre.network.name);
+  const [signer] = await ethers.getSigners();
+  const addressList = await addressUtils.getAddressList(hre.network.name);
 
-    const nativeVRFConsumer = await NativeVRFConsumer__factory.connect(addressList['NativeVRFConsumer'], signer);
+  const nativeVRFConsumer = await NativeVRFConsumer__factory.connect(
+    addressList.NativeVRFConsumer,
+    signer
+  );
 
-    const tx = await nativeVRFConsumer.recordRandomResults();
-    
-    console.log("Submitted a transaction: ", tx.hash);
+  const tx = await nativeVRFConsumer.recordRandomResults();
 
-    const receipt = await tx.wait();
+  console.log("Submitted a transaction: ", tx.hash);
 
-    console.log("Random has been recorded");
-    console.log("Data: ", decordOutputs(receipt));
+  const receipt = await tx.wait();
+
+  console.log("Random has been recorded");
+  console.log("Data: ", decordOutputs(receipt));
 }
 
 // We recommend this pattern to be able to use async/await everywhere
 // and properly handle errors.
 main().catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
+  console.error(error);
+  process.exitCode = 1;
 });

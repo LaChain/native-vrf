@@ -20,5 +20,13 @@ module.exports = {
       "error",
       { ignores: ["modules"] },
     ],
+    camelcase: [
+      "error",
+      {
+        allow: ["^.*__factory$"],
+      },
+    ],
+    "node/no-missing-import": "off",
+    "node/no-unpublished-import": "off",
   },
 };
